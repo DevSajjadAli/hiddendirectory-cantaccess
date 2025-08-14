@@ -1,0 +1,28 @@
+{
+  "id": "getting-started/helo",
+  "title": "Helo",
+  "description": "asdkgasgl",
+  "source": "@site/docs/getting-started/helo.md",
+  "sourceDirName": "getting-started",
+  "slug": "/getting-started/helo",
+  "permalink": "/docs/getting-started/helo",
+  "draft": false,
+  "unlisted": false,
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 1,
+  "frontMatter": {
+    "title": "Helo",
+    "position": 1,
+    "sidebar_position": 1
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "🚀 Getting Started",
+    "permalink": "/docs/getting-started"
+  },
+  "next": {
+    "title": "Tutorial Intro",
+    "permalink": "/docs/intro"
+  }
+}

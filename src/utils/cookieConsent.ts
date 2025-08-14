@@ -24,11 +24,6 @@ export interface CookiePreferences {
  * Get the current cookie consent status
  */
 export function getConsentStatus(): ConsentData | null {
-  if (typeof window === 'undefined') {
-    // Server-side rendering - return null
-    return null;
-  }
-  
   try {
     const stored = localStorage.getItem(STORAGE_KEY);
     return stored ? JSON.parse(stored) : null;
@@ -42,11 +37,6 @@ export function getConsentStatus(): ConsentData | null {
  * Get the current cookie preferences
  */
 export function getCookiePreferences(): CookiePreferences | null {
-  if (typeof window === 'undefined') {
-    // Server-side rendering - return null
-    return null;
-  }
-  
   try {
     const stored = localStorage.getItem(PREFERENCES_KEY);
     return stored ? JSON.parse(stored) : null;
@@ -79,11 +69,6 @@ export function hasConsentBeenGiven(): boolean {
  * Reset cookie consent (useful for testing or allowing users to change their minds)
  */
 export function resetConsent(): void {
-  if (typeof window === 'undefined') {
-    // Server-side rendering - do nothing
-    return;
-  }
-  
   localStorage.removeItem(STORAGE_KEY);
   localStorage.removeItem(PREFERENCES_KEY);
   

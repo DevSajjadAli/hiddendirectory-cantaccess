@@ -1,67 +1,24 @@
 ---
 title: Contact Us
-description: Get in touch with the Docusaurus Admin Panel community and maintainers.
+description: Get in touch with us for any inquiries or support.
+layout: ../layouts/base.njk
 ---
-
 # Contact Us
-
-If you have any questions, feedback, or need assistance with Docusaurus Admin Panel, we're here to help!
-
-## 📧 Community Support
-
-For general questions and community support:
-
-- **GitHub Discussions**: [facebook/docusaurus/discussions](https://github.com/facebook/docusaurus/discussions)
-- **Discord Community**: [discord.gg/docusaurus](https://discord.gg/docusaurus)
-- **Stack Overflow**: Use the [docusaurus](https://stackoverflow.com/questions/tagged/docusaurus) tag
-
-## 🐛 Bug Reports & Feature Requests
-
-Found a bug or have a feature request?
-
-- **GitHub Issues**: [facebook/docusaurus/issues](https://github.com/facebook/docusaurus/issues)
-- **Admin Panel Issues**: Report admin panel specific issues in our repository
-
-## 🌐 Social Media
-
-Stay updated with the latest Docusaurus news:
-
-- **Twitter**: [@docusaurus](https://twitter.com/docusaurus)
-- **LinkedIn**: [Docusaurus](https://linkedin.com/company/docusaurus)
-- **YouTube**: [Docusaurus Channel](https://youtube.com/@docusaurus)
-
-## 📚 Documentation
-
-Need help getting started?
-
-- **Official Docs**: [docusaurus.io/docs](https://docusaurus.io/docs)
-- **Admin Panel Guide**: Check our admin panel documentation
-- **Community Tutorials**: Browse community-contributed guides
-
-## 💬 Real-time Chat
-
-Join our active community:
-
-- **Discord Server**: Join thousands of developers discussing Docusaurus
-- **GitHub Discussions**: Participate in ongoing conversations
-- **Community Forum**: Share your projects and get feedback
-
-## 🤝 Contributing
-
-Want to contribute to Docusaurus?
-
-- **Contribution Guide**: [Contributing to Docusaurus](https://docusaurus.io/community/contributing)
-- **Code of Conduct**: [Community Guidelines](https://docusaurus.io/community/code-of-conduct)
-- **Good First Issues**: Perfect for new contributors
-
-## 🎯 Professional Support
-
-For enterprise support and consulting:
-
-- **Meta Open Source**: Official Docusaurus maintainers
-- **Community Partners**: Certified Docusaurus consultants
-- **Custom Development**: Professional service providers
-
----
-
-*This Docusaurus Admin Panel is a community project built on top of the amazing Docusaurus platform by Meta Open Source.*
+If you have any questions, feedback, or need assistance, please feel free to reach out to us. We are here to help!
+## Email
+You can email us at [support@hopevalley.cloud](mailto:support@hopevalley.cloud).
+## Phone
+You can call us at +1 (123) 456-7890.
+## Address
+You can find us at 123 Hope Valley Lane, Suite 100, Cloud City, CA 12345.
+## Social Media
+Follow us on our social media channels for updates and news:
+- [Twitter](https://twitter.com/hopevalleycloud)
+- [Facebook](https://facebook.com/hopevalleycloud)
+- [LinkedIn](https://linkedin.com/company/hopevalleycloud)
+## Contact Form
+If you prefer, you can also fill out our [contact form](https://hopevalley.cloud/contact-form) and we will get back to you as soon as possible.
+## Support
+For support inquiries, please visit our [Support Page](https://hopevalley.cloud/support) where you can find FAQs and submit a support ticket.
+## Feedback
+We value your feedback! If you have suggestions or comments about our services, please let us know through our [Feedback Form](https://hopevalley.cloud/feedback).

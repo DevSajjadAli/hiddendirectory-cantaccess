@@ -1,0 +1,26 @@
+{
+  "id": "admin-settings-test",
+  "title": "Admin Settings Test",
+  "description": "Test page to verify admin settings functionality",
+  "source": "@site/docs/admin-settings-test.md",
+  "sourceDirName": ".",
+  "slug": "/admin-settings-test",
+  "permalink": "/docs/admin-settings-test",
+  "draft": false,
+  "unlisted": false,
+  "tags": [],
+  "version": "current",
+  "frontMatter": {
+    "title": "Admin Settings Test",
+    "description": "Test page to verify admin settings functionality"
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Guides & How-to Articles",
+    "permalink": "/docs/guides/overview"
+  },
+  "next": {
+    "title": "Cookie Consent Implementation",
+    "permalink": "/docs/cookie-consent"
+  }
+}

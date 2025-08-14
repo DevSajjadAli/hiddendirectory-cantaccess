@@ -1,0 +1,23 @@
+{
+  "id": "Getting Started/Domain",
+  "title": "Setting up Your Domain",
+  "description": "Learn how to configure your domain for your Docusaurus site.",
+  "source": "@site/docs/Getting Started/Domain.md",
+  "sourceDirName": "Getting Started",
+  "slug": "/Getting Started/Domain",
+  "permalink": "/docs/Getting Started/Domain",
+  "draft": false,
+  "unlisted": false,
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Guides & How-to Articles",
+    "permalink": "/docs/guides/overview"
+  },
+  "next": {
+    "title": "Why Choose Docusaurus?",
+    "permalink": "/docs/Getting Started/Why Hope Valley Cloud"
+  }
+}

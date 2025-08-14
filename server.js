@@ -144,97 +144,16 @@ if (process.env.NODE_ENV !== 'production') {
 
 } else {
   // Production: serve built files
-  console.log('🚀 Starting production server...');
-  
-  // Serve static files from build directory
   app.use(express.static(path.join(__dirname, 'build')));
   
-  // API routes should come first
-  app.get('/health', (req, res) => {
-    res.json({ 
-      status: 'healthy', 
-      timestamp: new Date().toISOString(),
-      env: process.env.NODE_ENV || 'development'
-    });
-  });
-  
-  // Catch all handler for React SPA (must be last)
   app.get('*', (req, res) => {
     if (req.path.startsWith('/api/')) {
       return res.status(404).json({ error: 'API endpoint not found' });
     }
-    
-    // Check if build directory exists
-    const buildPath = path.join(__dirname, 'build', 'index.html');
-    const fs = require('fs');
-    
-    if (fs.existsSync(buildPath)) {
-      res.sendFile(buildPath);
-    } else {
-      // Build directory doesn't exist - show helpful error
-      res.status(500).send(`
-        <!DOCTYPE html>
-        <html>
-        <head>
-          <title>Build Error - Docusaurus Admin Panel</title>
-          <style>
-            body { 
-              font-family: Arial, sans-serif; 
-              max-width: 800px; 
-              margin: 50px auto; 
-              padding: 20px;
-              background: #f8f9fa;
-            }
-            .error { 
-              background: #fff3cd; 
-              border: 1px solid #ffeaa7; 
-              padding: 20px; 
-              border-radius: 8px;
-              margin: 20px 0;
-            }
-            .code { 
-              background: #f1f3f4; 
-              padding: 10px; 
-              border-radius: 4px; 
-              font-family: monospace;
-              margin: 10px 0;
-            }
-          </style>
-        </head>
-        <body>
-          <h1>🚧 Build Required</h1>
-          <div class="error">
-            <h3>The site hasn't been built yet!</h3>
-            <p>This is a Docusaurus site that needs to be built before serving.</p>
-            
-            <h4>For Local Development:</h4>
-            <div class="code">npm run build</div>
-            
-            <h4>For Heroku Deployment:</h4>
-            <p>The build should happen automatically. Check your Heroku logs:</p>
-            <div class="code">heroku logs --tail</div>
-          </div>
-          
-          <h3>📊 System Status</h3>
-          <ul>
-            <li><strong>Environment:</strong> ${process.env.NODE_ENV || 'development'}</li>
-            <li><strong>Port:</strong> ${PORT}</li>
-            <li><strong>Time:</strong> ${new Date().toISOString()}</li>
-            <li><strong>Build Path:</strong> ${buildPath}</li>
-          </ul>
-          
-          <h3>🔄 Auto-refresh</h3>
-          <p>This page will refresh automatically every 30 seconds...</p>
-          <script>setTimeout(() => location.reload(), 30000);</script>
-        </body>
-        </html>
-      `);
-    }
+    res.sendFile(path.join(__dirname, 'build', 'index.html'));
   });
   
   console.log(`🚀 Production server: http://localhost:${PORT}`);
-  console.log(`🔐 Admin Panel: http://localhost:${PORT}/admin`);
-  console.log(`💚 Health Check: http://localhost:${PORT}/health`);
 }
 
 app.listen(PORT, () => {

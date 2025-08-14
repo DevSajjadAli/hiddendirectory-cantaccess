@@ -1,0 +1,27 @@
+{
+  "id": "Getting Started/Why Docusaurus",
+  "title": "Why Choose Docusaurus?",
+  "description": "Docusaurus is a modern documentation platform that makes it easy to maintain open source project documentation.",
+  "source": "@site/docs/Getting Started/Why Docusaurus.md",
+  "sourceDirName": "Getting Started",
+  "slug": "/Getting Started/Why Docusaurus",
+  "permalink": "/docs/Getting Started/Why Docusaurus",
+  "draft": false,
+  "unlisted": false,
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 999,
+  "frontMatter": {
+    "position": 999,
+    "sidebar_position": 999
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Guides & How-to Articles",
+    "permalink": "/docs/guides/overview"
+  },
+  "next": {
+    "title": "Setting up Your Domain",
+    "permalink": "/docs/Getting Started/Domain"
+  }
+}

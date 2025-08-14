@@ -16,6 +16,11 @@ const CONSENT_VERSION = '2.0';
  * @returns {Object|null} Consent preferences or null if not set
  */
 export function getConsentPreferences() {
+  // Check if we're in a browser environment
+  if (typeof window === 'undefined' || typeof localStorage === 'undefined') {
+    return null; // Return null during SSR
+  }
+
   try {
     const stored = localStorage.getItem(CONSENT_STORAGE_KEY);
     const version = localStorage.getItem(CONSENT_VERSION_KEY);
@@ -46,6 +51,11 @@ export const getCookiePreferences = getConsentPreferences;
  * @param {Object} preferences Cookie category preferences
  */
 export function saveConsentPreferences(preferences) {
+  // Check if we're in a browser environment
+  if (typeof window === 'undefined' || typeof localStorage === 'undefined') {
+    return; // Skip during SSR
+  }
+
   try {
     const timestamp = Date.now();
     localStorage.setItem(CONSENT_STORAGE_KEY, JSON.stringify(preferences));
@@ -109,6 +119,11 @@ export function hasConsentBeenGiven() {
  * Reset all cookie consent data
  */
 export function resetConsent() {
+  // Check if we're in a browser environment
+  if (typeof window === 'undefined' || typeof localStorage === 'undefined') {
+    return; // Skip during SSR
+  }
+
   try {
     localStorage.removeItem(CONSENT_STORAGE_KEY);
     localStorage.removeItem(CONSENT_VERSION_KEY);

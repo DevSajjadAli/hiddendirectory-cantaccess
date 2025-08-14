@@ -519,21 +519,12 @@ function DashboardTab({ stats }) {
 // Blog Management Component
 function BlogsTab() {
   const [blogs, setBlogs] = useState([]);
-  const [authors, setAuthors] = useState({});
   const [loading, setLoading] = useState(true);
   const [showForm, setShowForm] = useState(false);
   const [editingBlog, setEditingBlog] = useState(null);
-  const [searchTerm, setSearchTerm] = useState('');
-  const [filterStatus, setFilterStatus] = useState('all');
-  const [filterAuthor, setFilterAuthor] = useState('all');
-  const [sortBy, setSortBy] = useState('date');
-  const [sortOrder, setSortOrder] = useState('desc');
-  const [selectedBlogs, setSelectedBlogs] = useState(new Set());
-  const [showPreview, setShowPreview] = useState(null);
 
   useEffect(() => {
     fetchBlogs();
-    fetchAuthors();
   }, []);
 
   const fetchBlogs = async () => {
@@ -548,19 +539,6 @@ function BlogsTab() {
     } catch (error) {
       console.error('Failed to fetch blogs:', error);
       setLoading(false);
-    }
-  };
-
-  const fetchAuthors = async () => {
-    try {
-      const token = localStorage.getItem('adminToken');
-      const response = await fetch('/api/admin/authors', {
-        headers: { 'Authorization': `Bearer ${token}` }
-      });
-      const data = await response.json();
-      setAuthors(data);
-    } catch (error) {
-      console.error('Failed to fetch authors:', error);
     }
   };
 
@@ -582,87 +560,6 @@ function BlogsTab() {
     } catch (error) {
       console.error('Failed to delete blog:', error);
     }
-  };
-
-  const handleBulkDelete = async () => {
-    if (selectedBlogs.size === 0) return;
-    if (!confirm(`Are you sure you want to delete ${selectedBlogs.size} blog posts?`)) return;
-    
-    try {
-      const token = localStorage.getItem('adminToken');
-      await Promise.all(
-        Array.from(selectedBlogs).map(blogId =>
-          fetch(`/api/admin/blogs/${blogId}`, {
-            method: 'DELETE',
-            headers: { 'Authorization': `Bearer ${token}` }
-          })
-        )
-      );
-      setSelectedBlogs(new Set());
-      fetchBlogs();
-    } catch (error) {
-      console.error('Failed to delete blogs:', error);
-    }
-  };
-
-  const handleStatusToggle = async (blogId, currentStatus) => {
-    try {
-      const token = localStorage.getItem('adminToken');
-      await fetch(`/api/admin/blogs/${blogId}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        },
-        body: JSON.stringify({ published: !currentStatus })
-      });
-      fetchBlogs();
-    } catch (error) {
-      console.error('Failed to update blog status:', error);
-    }
-  };
-
-  const filteredBlogs = blogs.filter(blog => {
-    const matchesSearch = blog.title?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         blog.content?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         blog.tags?.some(tag => tag.toLowerCase().includes(searchTerm.toLowerCase()));
-    
-    const matchesStatus = filterStatus === 'all' || 
-                         (filterStatus === 'published' && blog.published !== false) ||
-                         (filterStatus === 'draft' && blog.published === false);
-    
-    const matchesAuthor = filterAuthor === 'all' || blog.author === filterAuthor;
-    
-    return matchesSearch && matchesStatus && matchesAuthor;
-  }).sort((a, b) => {
-    const modifier = sortOrder === 'desc' ? -1 : 1;
-    switch (sortBy) {
-      case 'title':
-        return modifier * (a.title || '').localeCompare(b.title || '');
-      case 'author':
-        return modifier * (a.author || '').localeCompare(b.author || '');
-      case 'date':
-      default:
-        return modifier * (new Date(b.date || 0) - new Date(a.date || 0));
-    }
-  });
-
-  const handleSelectAll = (e) => {
-    if (e.target.checked) {
-      setSelectedBlogs(new Set(filteredBlogs.map(blog => blog.id)));
-    } else {
-      setSelectedBlogs(new Set());
-    }
-  };
-
-  const handleSelectBlog = (blogId, checked) => {
-    const newSelected = new Set(selectedBlogs);
-    if (checked) {
-      newSelected.add(blogId);
-    } else {
-      newSelected.delete(blogId);
-    }
-    setSelectedBlogs(newSelected);
   };
 
   if (loading) return <div className={styles.loading}>Loading blogs...</div>;
@@ -689,257 +586,46 @@ function BlogsTab() {
         </div>
       </div>
 
-      {/* Enhanced Filters and Search */}
-      <div className={styles.blogFilters}>
-        <div className={styles.filterRow}>
-          <div className={styles.searchGroup}>
-            <input
-              type="text"
-              placeholder="🔍 Search posts..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className={styles.searchInput}
-            />
-          </div>
-          
-          <div className={styles.filterGroup}>
-            <select 
-              value={filterStatus} 
-              onChange={(e) => setFilterStatus(e.target.value)}
-              className={styles.filterSelect}
-            >
-              <option value="all">All Status</option>
-              <option value="published">📋 Published</option>
-              <option value="draft">📝 Draft</option>
-            </select>
-          </div>
-          
-          <div className={styles.filterGroup}>
-            <select 
-              value={filterAuthor} 
-              onChange={(e) => setFilterAuthor(e.target.value)}
-              className={styles.filterSelect}
-            >
-              <option value="all">All Authors</option>
-              {Object.entries(authors).map(([key, author]) => (
-                <option key={key} value={key}>{author.name}</option>
-              ))}
-            </select>
-          </div>
-          
-          <div className={styles.sortGroup}>
-            <select 
-              value={`${sortBy}-${sortOrder}`} 
-              onChange={(e) => {
-                const [field, order] = e.target.value.split('-');
-                setSortBy(field);
-                setSortOrder(order);
-              }}
-              className={styles.sortSelect}
-            >
-              <option value="date-desc">📅 Newest First</option>
-              <option value="date-asc">📅 Oldest First</option>
-              <option value="title-asc">🔤 Title A-Z</option>
-              <option value="title-desc">🔤 Title Z-A</option>
-              <option value="author-asc">👤 Author A-Z</option>
-            </select>
-          </div>
-        </div>
-
-        {/* Bulk Actions */}
-        {selectedBlogs.size > 0 && (
-          <div className={styles.bulkActions}>
-            <span className={styles.bulkInfo}>
-              {selectedBlogs.size} post{selectedBlogs.size !== 1 ? 's' : ''} selected
-            </span>
-            <button 
-              onClick={handleBulkDelete}
-              className={styles.bulkDeleteBtn}
-            >
-              🗑️ Delete Selected
-            </button>
-          </div>
-        )}
-      </div>
-
-      <div className={styles.blogStats}>
-        <span>📊 Showing {filteredBlogs.length} of {blogs.length} posts</span>
-        <span>📋 Published: {blogs.filter(b => b.published !== false).length}</span>
-        <span>📝 Drafts: {blogs.filter(b => b.published === false).length}</span>
-      </div>
-
       {showForm ? (
         <BlogForm 
           blog={editingBlog}
-          authors={authors}
           onSave={() => {setShowForm(false); fetchBlogs();}}
           onCancel={() => setShowForm(false)}
         />
       ) : (
-        <div className={styles.blogsList}>
-          {filteredBlogs.length === 0 ? (
+        <div className={styles.itemsGrid}>
+          {blogs.length === 0 ? (
             <div className={styles.emptyState}>
-              <div className={styles.emptyIcon}>📝</div>
-              <h3>No blog posts found</h3>
-              <p>
-                {blogs.length === 0 
-                  ? "Create your first blog post to get started!" 
-                  : "Try adjusting your search or filters."}
-              </p>
+              <p>No blog posts yet. Create your first post!</p>
             </div>
           ) : (
-            <>
-              {/* Table Header */}
-              <div className={styles.blogTableHeader}>
-                <div className={styles.selectColumn}>
-                  <input
-                    type="checkbox"
-                    checked={selectedBlogs.size === filteredBlogs.length && filteredBlogs.length > 0}
-                    onChange={handleSelectAll}
-                  />
+            blogs.map(blog => (
+              <div key={blog.id} className={styles.itemCard}>
+                <h3>{blog.title}</h3>
+                <p className={styles.itemMeta}>
+                  By {blog.author} • {new Date(blog.date).toLocaleDateString()}
+                </p>
+                <div className={styles.itemTags}>
+                  {blog.tags?.map(tag => (
+                    <span key={tag} className={styles.tag}>{tag}</span>
+                  ))}
                 </div>
-                <div className={styles.titleColumn}>Title</div>
-                <div className={styles.authorColumn}>Author</div>
-                <div className={styles.statusColumn}>Status</div>
-                <div className={styles.dateColumn}>Date</div>
-                <div className={styles.actionsColumn}>Actions</div>
+                <div className={styles.itemActions}>
+                  <a 
+                    href={blog.slug ? `/blog/${blog.slug}` : `/blog/${blog.id || blog.title?.toLowerCase().replace(/\s+/g, '-')}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={styles.viewButton}
+                    title="Preview Blog Post"
+                  >
+                    👁️ View
+                  </a>
+                  <button onClick={() => handleEdit(blog)} className={styles.editButton}>✏️ Edit</button>
+                  <button onClick={() => handleDelete(blog.id)} className={styles.deleteButton}>🗑️ Delete</button>
+                </div>
               </div>
-
-              {/* Blog List */}
-              {filteredBlogs.map(blog => (
-                <div key={blog.id} className={styles.blogTableRow}>
-                  <div className={styles.selectColumn}>
-                    <input
-                      type="checkbox"
-                      checked={selectedBlogs.has(blog.id)}
-                      onChange={(e) => handleSelectBlog(blog.id, e.target.checked)}
-                    />
-                  </div>
-                  
-                  <div className={styles.titleColumn}>
-                    <div className={styles.blogTitle}>
-                      <h4>{blog.title}</h4>
-                      <div className={styles.blogMeta}>
-                        {blog.tags?.slice(0, 3).map(tag => (
-                          <span key={tag} className={styles.tag}>{tag}</span>
-                        ))}
-                        {blog.tags?.length > 3 && (
-                          <span className={styles.tagMore}>+{blog.tags.length - 3}</span>
-                        )}
-                      </div>
-                    </div>
-                  </div>
-                  
-                  <div className={styles.authorColumn}>
-                    <div className={styles.authorInfo}>
-                      {authors[blog.author] && (
-                        <>
-                          {authors[blog.author].image_url && (
-                            <img 
-                              src={authors[blog.author].image_url} 
-                              alt={authors[blog.author].name}
-                              className={styles.authorAvatar}
-                            />
-                          )}
-                          <span>{authors[blog.author].name}</span>
-                        </>
-                      )}
-                      {!authors[blog.author] && <span>{blog.author}</span>}
-                    </div>
-                  </div>
-                  
-                  <div className={styles.statusColumn}>
-                    <button
-                      onClick={() => handleStatusToggle(blog.id, blog.published !== false)}
-                      className={`${styles.statusBadge} ${
-                        blog.published !== false ? styles.published : styles.draft
-                      }`}
-                    >
-                      {blog.published !== false ? '📋 Published' : '📝 Draft'}
-                    </button>
-                  </div>
-                  
-                  <div className={styles.dateColumn}>
-                    <span className={styles.blogDate}>
-                      {new Date(blog.date).toLocaleDateString()}
-                    </span>
-                  </div>
-                  
-                  <div className={styles.actionsColumn}>
-                    <div className={styles.blogActions}>
-                      <button
-                        onClick={() => setShowPreview(blog)}
-                        className={styles.previewBtn}
-                        title="Quick Preview"
-                      >
-                        👁️
-                      </button>
-                      <a 
-                        href={blog.slug ? `/blog/${blog.slug}` : `/blog/${blog.id || blog.title?.toLowerCase().replace(/\s+/g, '-')}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className={styles.viewBtn}
-                        title="View Live Post"
-                      >
-                        �
-                      </a>
-                      <button 
-                        onClick={() => handleEdit(blog)} 
-                        className={styles.editBtn}
-                        title="Edit Post"
-                      >
-                        ✏️
-                      </button>
-                      <button 
-                        onClick={() => handleDelete(blog.id)} 
-                        className={styles.deleteBtn}
-                        title="Delete Post"
-                      >
-                        🗑️
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </>
+            ))
           )}
-        </div>
-      )}
-
-      {/* Quick Preview Modal */}
-      {showPreview && (
-        <div className={styles.previewModal} onClick={() => setShowPreview(null)}>
-          <div className={styles.previewContent} onClick={(e) => e.stopPropagation()}>
-            <div className={styles.previewHeader}>
-              <h3>� Quick Preview</h3>
-              <button onClick={() => setShowPreview(null)}>✕</button>
-            </div>
-            <div className={styles.previewBody}>
-              <h1>{showPreview.title}</h1>
-              <div className={styles.previewMeta}>
-                By {showPreview.author} • {new Date(showPreview.date).toLocaleDateString()}
-              </div>
-              <div className={styles.previewTags}>
-                {showPreview.tags?.map(tag => (
-                  <span key={tag} className={styles.previewTag}>{tag}</span>
-                ))}
-              </div>
-              <div className={styles.previewContentText}>
-                {showPreview.content?.substring(0, 500)}
-                {showPreview.content?.length > 500 && '...'}
-              </div>
-            </div>
-            <div className={styles.previewFooter}>
-              <a 
-                href={showPreview.slug ? `/blog/${showPreview.slug}` : `/blog/${showPreview.id}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className={styles.fullViewBtn}
-              >
-                🔗 View Full Post
-              </a>
-            </div>
-          </div>
         </div>
       )}
     </div>
@@ -2147,11 +1833,6 @@ function AuthorsTab() {
   const [loading, setLoading] = useState(true);
   const [showForm, setShowForm] = useState(false);
   const [editingAuthor, setEditingAuthor] = useState(null);
-  const [searchTerm, setSearchTerm] = useState('');
-  const [sortBy, setSortBy] = useState('name');
-  const [sortOrder, setSortOrder] = useState('asc');
-  const [selectedAuthors, setSelectedAuthors] = useState(new Set());
-  const [showPreview, setShowPreview] = useState(null);
 
   useEffect(() => {
     fetchAuthors();
@@ -2172,144 +1853,18 @@ function AuthorsTab() {
     }
   };
 
-  const handleEdit = (authorKey) => {
-    setEditingAuthor({
-      ...authors[authorKey],
-      key: authorKey
-    });
-    setShowForm(true);
-  };
-
-  const handleDelete = async (authorKey) => {
-    if (window.confirm('Are you sure you want to delete this author?')) {
-      try {
-        const token = localStorage.getItem('adminToken');
-        await fetch(`/api/admin/authors/${authorKey}`, { 
-          method: 'DELETE',
-          headers: { 'Authorization': `Bearer ${token}` }
-        });
-        fetchAuthors();
-      } catch (error) {
-        console.error('Error deleting author:', error);
-      }
-    }
-  };
-
-  const handleBulkDelete = async () => {
-    if (selectedAuthors.size === 0) return;
-    
-    if (window.confirm(`Are you sure you want to delete ${selectedAuthors.size} author(s)? This action cannot be undone.`)) {
-      try {
-        const token = localStorage.getItem('adminToken');
-        const promises = Array.from(selectedAuthors).map(authorKey =>
-          fetch(`/api/admin/authors/${authorKey}`, { 
-            method: 'DELETE',
-            headers: { 'Authorization': `Bearer ${token}` }
-          })
-        );
-        await Promise.all(promises);
-        setSelectedAuthors(new Set());
-        fetchAuthors();
-      } catch (error) {
-        console.error('Error deleting authors:', error);
-      }
-    }
-  };
-
-  const handleSelectAuthor = (authorKey, checked) => {
-    const newSelected = new Set(selectedAuthors);
-    if (checked) {
-      newSelected.add(authorKey);
-    } else {
-      newSelected.delete(authorKey);
-    }
-    setSelectedAuthors(newSelected);
-  };
-
-  const handleSelectAll = () => {
-    if (selectedAuthors.size === filteredAuthors.length) {
-      setSelectedAuthors(new Set());
-    } else {
-      setSelectedAuthors(new Set(filteredAuthors.map(([key]) => key)));
-    }
-  };
-
   if (loading) return <div className={styles.loading}>Loading authors...</div>;
-
-  // Filter and sort authors
-  const authorsArray = Object.entries(authors);
-  
-  const filteredAuthors = authorsArray.filter(([key, author]) => {
-    if (!searchTerm) return true;
-    const searchLower = searchTerm.toLowerCase();
-    return (
-      author.name?.toLowerCase().includes(searchLower) ||
-      author.email?.toLowerCase().includes(searchLower) ||
-      author.title?.toLowerCase().includes(searchLower) ||
-      author.url?.toLowerCase().includes(searchLower) ||
-      key.toLowerCase().includes(searchLower)
-    );
-  });
-
-  const sortedAuthors = [...filteredAuthors].sort(([keyA, authorA], [keyB, authorB]) => {
-    let aValue = '';
-    let bValue = '';
-
-    switch (sortBy) {
-      case 'name':
-        aValue = authorA.name || '';
-        bValue = authorB.name || '';
-        break;
-      case 'email':
-        aValue = authorA.email || '';
-        bValue = authorB.email || '';
-        break;
-      case 'title':
-        aValue = authorA.title || '';
-        bValue = authorB.title || '';
-        break;
-      case 'key':
-      default:
-        aValue = keyA;
-        bValue = keyB;
-        break;
-    }
-
-    const comparison = aValue.localeCompare(bValue);
-    return sortOrder === 'asc' ? comparison : -comparison;
-  });
 
   return (
     <div className={styles.tabContent}>
       <div className={styles.tabHeader}>
-        <div className={styles.headerLeft}>
-          <h2>👥 Author Management</h2>
-          <div className={styles.statsBar}>
-            <div className={styles.stat}>
-              <span className={styles.statValue}>{authorsArray.length}</span>
-              <span className={styles.statLabel}>Total Authors</span>
-            </div>
-            <div className={styles.stat}>
-              <span className={styles.statValue}>
-                {authorsArray.filter(([, author]) => author.image_url).length}
-              </span>
-              <span className={styles.statLabel}>With Avatar</span>
-            </div>
-            <div className={styles.stat}>
-              <span className={styles.statValue}>
-                {authorsArray.filter(([, author]) => author.url).length}
-              </span>
-              <span className={styles.statLabel}>With Website</span>
-            </div>
-          </div>
-        </div>
-        
+        <h2>👥 Authors Management</h2>
         <div className={styles.tabActions}>
           <button 
             className={styles.addButton}
             onClick={() => {setShowForm(true); setEditingAuthor(null);}}
           >
-            ➕ Add New Author
+            ➕ Add Author
           </button>
           <a 
             href="/blog" 
@@ -2322,77 +1877,6 @@ function AuthorsTab() {
         </div>
       </div>
 
-      {!showForm && (
-        <div className={styles.tableControls}>
-          {/* Search Bar */}
-          <div className={styles.searchWrapper}>
-            <div className={styles.searchBar}>
-              <span className={styles.searchIcon}>🔍</span>
-              <input
-                type="text"
-                placeholder="Search authors by name, email, title, website, or key..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className={styles.searchInput}
-              />
-              {searchTerm && (
-                <button
-                  onClick={() => setSearchTerm('')}
-                  className={styles.clearSearch}
-                >
-                  ✕
-                </button>
-              )}
-            </div>
-          </div>
-
-          {/* Controls Row */}
-          <div className={styles.controlsRow}>
-            {/* Sort Controls */}
-            <div className={styles.sortControls}>
-              <span className={styles.controlLabel}>Sort by:</span>
-              <select
-                value={sortBy}
-                onChange={(e) => setSortBy(e.target.value)}
-                className={styles.sortSelect}
-              >
-                <option value="name">Name</option>
-                <option value="email">Email</option>
-                <option value="title">Title</option>
-                <option value="key">Author Key</option>
-              </select>
-              <button
-                onClick={() => setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc')}
-                className={styles.sortOrder}
-                title={`Sort ${sortOrder === 'asc' ? 'Descending' : 'Ascending'}`}
-              >
-                {sortOrder === 'asc' ? '↑' : '↓'}
-              </button>
-            </div>
-
-            {/* Bulk Actions */}
-            {selectedAuthors.size > 0 && (
-              <div className={styles.bulkActions}>
-                <span className={styles.selectedCount}>
-                  {selectedAuthors.size} selected
-                </span>
-                <button
-                  onClick={handleBulkDelete}
-                  className={styles.bulkDeleteBtn}
-                >
-                  🗑️ Delete Selected
-                </button>
-              </div>
-            )}
-
-            {/* Results Info */}
-            <div className={styles.resultsInfo}>
-              Showing {sortedAuthors.length} of {authorsArray.length} authors
-            </div>
-          </div>
-        </div>
-      )}
-
       {showForm ? (
         <AuthorForm 
           author={editingAuthor}
@@ -2400,199 +1884,48 @@ function AuthorsTab() {
           onCancel={() => setShowForm(false)}
         />
       ) : (
-        <div className={styles.authorsList}>
-          {sortedAuthors.length === 0 ? (
+        <div className={styles.authorsGrid}>
+          {Object.keys(authors).length === 0 ? (
             <div className={styles.emptyState}>
-              <div className={styles.emptyIcon}>👤</div>
-              <h3>No authors found</h3>
-              <p>
-                {authorsArray.length === 0 
-                  ? "Add your first author to get started!" 
-                  : "Try adjusting your search terms."}
-              </p>
+              <p>No authors yet. Add your first author!</p>
             </div>
           ) : (
-            <>
-              {/* Table Header */}
-              <div className={styles.authorTableHeader}>
-                <div className={styles.selectColumn}>
-                  <input
-                    type="checkbox"
-                    checked={selectedAuthors.size === sortedAuthors.length && sortedAuthors.length > 0}
-                    onChange={handleSelectAll}
-                  />
+            Object.entries(authors).map(([key, author]) => (
+              <div key={key} className={styles.authorCard}>
+                <div className={styles.authorAvatar}>
+                  {author.image_url ? (
+                    <img src={author.image_url} alt={author.name} />
+                  ) : (
+                    <div className={styles.avatarPlaceholder}>
+                      {author.name?.charAt(0) || '?'}
+                    </div>
+                  )}
                 </div>
-                <div className={styles.avatarColumn}>Avatar</div>
-                <div className={styles.nameColumn}>Name</div>
-                <div className={styles.emailColumn}>Email</div>
-                <div className={styles.titleColumn}>Title</div>
-                <div className={styles.websiteColumn}>Website</div>
-                <div className={styles.actionsColumn}>Actions</div>
+                <div className={styles.authorInfo}>
+                  <h3>{author.name}</h3>
+                  <p className={styles.authorTitle}>{author.title}</p>
+                  {/* Remove bio to prevent layout breaking */}
+                </div>
+                <div className={styles.itemActions}>
+                  <a 
+                    href={`/blog/authors/${author.key || key}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={styles.viewButton}
+                    title="View Author Profile"
+                  >
+                    👁️ View
+                  </a>
+                  <button 
+                    onClick={() => {setEditingAuthor({...author, key}); setShowForm(true);}}
+                    className={styles.editButton}
+                  >
+                    ✏️ Edit
+                  </button>
+                </div>
               </div>
-
-              {/* Authors List */}
-              {sortedAuthors.map(([authorKey, author]) => (
-                <div key={authorKey} className={styles.authorTableRow}>
-                  <div className={styles.selectColumn}>
-                    <input
-                      type="checkbox"
-                      checked={selectedAuthors.has(authorKey)}
-                      onChange={(e) => handleSelectAuthor(authorKey, e.target.checked)}
-                    />
-                  </div>
-                  
-                  <div className={styles.avatarColumn}>
-                    {author.image_url ? (
-                      <img 
-                        src={author.image_url} 
-                        alt={author.name}
-                        className={styles.authorAvatarLarge}
-                        onClick={() => setShowPreview({...author, key: authorKey})}
-                        style={{cursor: 'pointer'}}
-                      />
-                    ) : (
-                      <div className={styles.avatarPlaceholder}>
-                        {author.name?.charAt(0)?.toUpperCase() || '👤'}
-                      </div>
-                    )}
-                  </div>
-                  
-                  <div className={styles.nameColumn}>
-                    <div className={styles.authorName}>
-                      <h4>{author.name}</h4>
-                      <div className={styles.authorKey}>@{authorKey}</div>
-                    </div>
-                  </div>
-                  
-                  <div className={styles.emailColumn}>
-                    {author.email && (
-                      <a href={`mailto:${author.email}`} className={styles.emailLink}>
-                        {author.email}
-                      </a>
-                    )}
-                    {!author.email && <span className={styles.noData}>—</span>}
-                  </div>
-                  
-                  <div className={styles.titleColumn}>
-                    {author.title || <span className={styles.noData}>—</span>}
-                  </div>
-                  
-                  <div className={styles.websiteColumn}>
-                    {author.url ? (
-                      <a 
-                        href={author.url} 
-                        target="_blank" 
-                        rel="noopener noreferrer"
-                        className={styles.websiteLink}
-                      >
-                        🔗 Visit
-                      </a>
-                    ) : (
-                      <span className={styles.noData}>—</span>
-                    )}
-                  </div>
-                  
-                  <div className={styles.actionsColumn}>
-                    <div className={styles.authorActions}>
-                      <button
-                        onClick={() => setShowPreview({...author, key: authorKey})}
-                        className={styles.previewBtn}
-                        title="Preview Author"
-                      >
-                        👁️
-                      </button>
-                      <a 
-                        href={`/blog/authors/${author.key || authorKey}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className={styles.viewBtn}
-                        title="View Author Profile"
-                      >
-                        🔗
-                      </a>
-                      <button 
-                        onClick={() => handleEdit(authorKey)} 
-                        className={styles.editBtn}
-                        title="Edit Author"
-                      >
-                        ✏️
-                      </button>
-                      <button 
-                        onClick={() => handleDelete(authorKey)} 
-                        className={styles.deleteBtn}
-                        title="Delete Author"
-                      >
-                        🗑️
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </>
+            ))
           )}
-        </div>
-      )}
-
-      {/* Author Preview Modal */}
-      {showPreview && (
-        <div className={styles.previewModal} onClick={() => setShowPreview(null)}>
-          <div className={styles.previewContent} onClick={(e) => e.stopPropagation()}>
-            <div className={styles.previewHeader}>
-              <h3>👤 Author Preview</h3>
-              <button onClick={() => setShowPreview(null)}>✕</button>
-            </div>
-            <div className={styles.authorPreviewBody}>
-              <div className={styles.authorPreviewInfo}>
-                {showPreview.image_url && (
-                  <img 
-                    src={showPreview.image_url} 
-                    alt={showPreview.name}
-                    className={styles.authorPreviewAvatar}
-                  />
-                )}
-                <div className={styles.authorPreviewDetails}>
-                  <h2>{showPreview.name}</h2>
-                  <div className={styles.authorPreviewKey}>@{showPreview.key}</div>
-                  {showPreview.title && (
-                    <div className={styles.authorPreviewTitle}>{showPreview.title}</div>
-                  )}
-                  {showPreview.email && (
-                    <div className={styles.authorPreviewContact}>
-                      <strong>Email:</strong> 
-                      <a href={`mailto:${showPreview.email}`}>{showPreview.email}</a>
-                    </div>
-                  )}
-                  {showPreview.url && (
-                    <div className={styles.authorPreviewContact}>
-                      <strong>Website:</strong> 
-                      <a href={showPreview.url} target="_blank" rel="noopener noreferrer">
-                        {showPreview.url}
-                      </a>
-                    </div>
-                  )}
-                </div>
-              </div>
-            </div>
-            <div className={styles.previewFooter}>
-              <a 
-                href={`/blog/authors/${showPreview.key}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className={styles.fullViewBtn}
-              >
-                🔗 View Author Profile
-              </a>
-              <button 
-                onClick={() => {
-                  setShowPreview(null);
-                  handleEdit(showPreview.key);
-                }}
-                className={styles.editFromPreviewBtn}
-              >
-                ✏️ Edit Author
-              </button>
-            </div>
-          </div>
         </div>
       )}
     </div>

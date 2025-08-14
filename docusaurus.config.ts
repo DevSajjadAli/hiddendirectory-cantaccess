@@ -17,17 +17,18 @@ const config: Config = {
   },
 
   // Set the production url of your site here
-  url: 'https://docusaurus-admin-panel-demo-853045317f6e.herokuapp.com',
+  url: 'https://adminpandoc.sajjadalibabar.live',
   // Set the /<baseUrl>/ pathname under which your site is served
   // For GitHub pages deployment, it is often '/<projectName>/'
   baseUrl: '/',
 
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
-  organizationName: 'docusaurus', // Usually your GitHub org/user name.
-  projectName: 'docusaurus-admin-panel', // Usually your repo name.
+  organizationName: 'Omegaark', // Usually your GitHub org/user name.
+  projectName: 'hiddendirectory-cantaccess', // Usually your repo name.
   deploymentBranch: 'gh-pages', // The branch that GitHub pages will deploy from.
-  onBrokenLinks: 'warn', // Changed from 'throw' to 'warn' for deployment
+  trailingSlash: false,
+  onBrokenLinks: 'warn',
   onBrokenMarkdownLinks: 'warn',
 
   // Even if you don't use internationalization, you can use this field to set
@@ -58,8 +59,8 @@ const config: Config = {
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
           
-          editUrl:
-            'https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/',
+          // editUrl:
+          //   'https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/',
           // Useful options to enforce blogging best practices
           onInlineTags: 'warn',
           onInlineAuthors: 'warn',
@@ -127,8 +128,8 @@ const config: Config = {
               to: '/docs/intro',
             },
             {
-              label: 'Getting Started',
-              to: '/docs/category/getting-started',
+              label: 'API Reference',
+              to: '/docs/api-reference',
             },
             {
               label: 'Admin Panel',

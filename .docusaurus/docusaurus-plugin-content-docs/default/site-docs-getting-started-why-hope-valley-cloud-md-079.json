@@ -1,0 +1,23 @@
+{
+  "id": "Getting Started/Why Hope Valley Cloud",
+  "title": "Why Choose Docusaurus?",
+  "description": "Docusaurus is a modern documentation platform that makes it easy to maintain open source project documentation.",
+  "source": "@site/docs/Getting Started/Why Hope Valley Cloud.md",
+  "sourceDirName": "Getting Started",
+  "slug": "/Getting Started/Why Hope Valley Cloud",
+  "permalink": "/docs/Getting Started/Why Hope Valley Cloud",
+  "draft": false,
+  "unlisted": false,
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Setting up Your Domain",
+    "permalink": "/docs/Getting Started/Domain"
+  },
+  "next": {
+    "title": "Admin Settings Test",
+    "permalink": "/docs/admin-settings-test"
+  }
+}

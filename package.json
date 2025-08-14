@@ -7,8 +7,6 @@
     "start": "node server.js",
     "dev": "docusaurus start",
     "build": "docusaurus build",
-    "postbuild": "echo 'Build completed successfully! 🎉'",
-    "heroku-postbuild": "npm run build",
     "swizzle": "docusaurus swizzle",
     "deploy": "docusaurus deploy",
     "clear": "docusaurus clear",

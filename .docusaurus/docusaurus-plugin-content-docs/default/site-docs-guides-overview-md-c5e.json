@@ -1,0 +1,19 @@
+{
+  "id": "guides/overview",
+  "title": "Guides & How-to Articles",
+  "description": "Welcome to our collection of practical guides! These articles provide step-by-step instructions for common tasks and real-world scenarios with Docusaurus.",
+  "source": "@site/docs/guides/overview.md",
+  "sourceDirName": "guides",
+  "slug": "/guides/overview",
+  "permalink": "/hiddendirectory-cantaccess/docs/guides/overview",
+  "draft": false,
+  "unlisted": false,
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "📖 Guides & How-tos",
+    "permalink": "/hiddendirectory-cantaccess/docs/guides"
+  }
+}

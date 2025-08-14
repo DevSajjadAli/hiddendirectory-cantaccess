@@ -1,6 +1,6 @@
 ---
-sidebar_position: 2
-position: 2
+sidebar_position: 1
+position: 1
 ---
 
 # Create a Document
