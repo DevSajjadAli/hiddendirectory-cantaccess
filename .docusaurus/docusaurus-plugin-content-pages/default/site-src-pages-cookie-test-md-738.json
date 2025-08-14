@@ -1,9 +1,0 @@
-{
-  "type": "mdx",
-  "permalink": "/hiddendirectory-cantaccess/cookie-test",
-  "source": "@site/src/pages/cookie-test.md",
-  "title": "Cookie Consent Test Page",
-  "description": "This page demonstrates the cookie consent system in action.",
-  "frontMatter": {},
-  "unlisted": false
-}

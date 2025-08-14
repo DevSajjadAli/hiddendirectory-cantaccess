@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunkdocusaurus_admin_panel=self.webpackChunkdocusaurus_admin_panel||[]).push([[1903],{1912:s=>{s.exports=JSON.parse('{"blogBasePath":"/hiddendirectory-cantaccess/blog","blogTitle":"Blog","authorsListPath":"/hiddendirectory-cantaccess/blog/authors"}')}}]);
