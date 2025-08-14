@@ -1,0 +1,20 @@
+{
+  "theme": "auto",
+  "enableDarkMode": true,
+  "primaryColor": "#2874A6",
+  "secondaryColor": "#F2F4F4",
+  "accentColor": "#27AE60",
+  "headingFont": "system-ui",
+  "bodyFont": "system-ui",
+  "codeFont": "SFMono-Regular",
+  "logoUrl": "/img/logo.svg",
+  "logoAlt": "Hope Valley Cloud Logo",
+  "showTitle": true,
+  "customCSS": "",
+  "warningColor": "#F4D03F",
+  "lightBackgroundColor": "#FFFFFF",
+  "lightTextColor": "#2C3E50",
+  "darkBackgroundColor": "#2C3E50",
+  "darkTextColor": "#FFFFFF",
+  "darkPrimaryColor": "#4193C8"
+}

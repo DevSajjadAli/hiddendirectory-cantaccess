@@ -1,0 +1,45 @@
+{
+  "name": "docusaurus-admin-panel",
+  "description": "A comprehensive Docusaurus documentation site with admin panel",
+  "repository": "https://github.com/your-username/docusaurus-admin-panel",
+  "logo": "https://docusaurus.io/img/docusaurus.png",
+  "keywords": ["docusaurus", "documentation", "admin-panel", "blog", "docs"],
+  "image": "heroku/nodejs",
+  "stack": "heroku-22",
+  "buildpacks": [
+    {
+      "url": "heroku/nodejs"
+    }
+  ],
+  "formation": {
+    "web": {
+      "quantity": 1,
+      "size": "eco"
+    }
+  },
+  "addons": [],
+  "env": {
+    "NODE_ENV": {
+      "description": "Node environment",
+      "value": "production"
+    },
+    "JWT_SECRET": {
+      "description": "Secret key for JWT token signing (REQUIRED)",
+      "generator": "secret",
+      "required": true
+    },
+    "ADMIN_USERNAME": {
+      "description": "Admin panel username",
+      "value": "admin",
+      "required": true
+    },
+    "ADMIN_PASSWORD": {
+      "description": "Admin panel password (change this!)",
+      "value": "change-me-please",
+      "required": true
+    }
+  },
+  "scripts": {
+    "postdeploy": "echo 'Deployment completed successfully! 🚀'"
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "label": "📖 Guides & How-tos",
+  "position": 5,
+  "description": "Practical guides, best practices, and real-world examples for common use cases.",
+  "link": {
+    "type": "generated-index",
+    "title": "Practical Guides & How-to Articles",
+    "description": "Step-by-step guides for common tasks and real-world scenarios. Learn best practices, discover tips and tricks, and follow detailed walkthroughs that help you accomplish specific goals with Docusaurus.",
+    "slug": "/guides"
+  },
+  "collapsed": true,
+  "collapsible": true
+}

@@ -1,0 +1,104 @@
+/**
+ * Any CSS included here will be global. The classic template
+ * bundles Infima by default. Infima is a CSS framework designed to
+ * work well for content-centric websites.
+ */
+
+/* Import cookie consent styles */
+@import '../components/CookieConsent/styles.css';
+
+/* Light Theme */
+:root {
+  --ifm-background-color: #FFFFFF;
+  --ifm-font-color-base: #2C3E50;
+
+  --ifm-color-primary: #2874A6; /* Header & Main Theme Color */
+  --ifm-color-primary-dark: #20608A;
+  --ifm-color-primary-darker: #1C547A;
+  --ifm-color-primary-darkest: #183F5A;
+  --ifm-color-primary-light: #3384BA;
+  --ifm-color-primary-lighter: #4193C8;
+  --ifm-color-primary-lightest: #5AA8DC;
+
+  --ifm-color-secondary: #F2F4F4; /* Light gray for secondary sections */
+  --ifm-color-success: #27AE60; /* CTA Buttons */
+  --ifm-color-warning: #F4D03F; /* Highlight / Pop Color */
+
+  --ifm-code-font-size: 95%;
+  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.07);
+}
+
+/* Dark Theme */
+[data-theme='dark'] {
+  --ifm-background-color: #2C3E50;
+  --ifm-font-color-base: #FFFFFF;
+
+  --ifm-color-primary: #4193C8;
+  --ifm-color-primary-dark: #3384BA;
+  --ifm-color-primary-darker: #2874A6;
+  --ifm-color-primary-darkest: #1C547A;
+  --ifm-color-primary-light: #5AA8DC;
+  --ifm-color-primary-lighter: #66B4E6;
+  --ifm-color-primary-lightest: #80C8F0;
+
+  --ifm-color-secondary: #F2F4F4;
+  --ifm-color-success: #27AE60;
+  --ifm-color-warning: #F4D03F;
+
+  --docusaurus-highlighted-code-line-bg: rgba(255, 255, 255, 0.08);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* Auto-generated appearance settings */
+:root {
+  --ifm-color-primary: #2874A6;
+  --ifm-color-primary-dark: #246895;
+  --ifm-color-primary-darker: #22638d;
+  --ifm-color-primary-darkest: #1e577d;
+  --ifm-color-primary-light: #2c80b7;
+  --ifm-color-primary-lighter: #2e85bf;
+  --ifm-color-primary-lightest: #3291d0;
+  
+  --ifm-color-secondary: #F2F4F4;
+  --ifm-color-success: #27AE60;
+  
+  --ifm-font-family-base: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --ifm-heading-font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --ifm-font-family-monospace: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+}
+
+[data-theme='dark'] {
+  --ifm-color-primary: #308bc7;
+  --ifm-color-primary-dark: #2c80b7;
+  --ifm-color-primary-darker: #2a7aae;
+  --ifm-color-primary-darkest: #246895;
+  --ifm-color-primary-light: #3497d8;
+  --ifm-color-primary-lighter: #369de0;
+  --ifm-color-primary-lightest: #3aa8f1;
+}
+
+/* Logo and title adjustments */
+
+
+/* Custom user CSS */
+
+
+/* End auto-generated */

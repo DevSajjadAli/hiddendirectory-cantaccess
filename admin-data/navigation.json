@@ -1,0 +1,36 @@
+{
+  "items": [
+    {
+      "id": 1,
+      "label": "Documentation",
+      "url": "/docs",
+      "type": "internal",
+      "position": 1,
+      "newTab": false
+    },
+    {
+      "id": 2,
+      "label": "Blog",
+      "url": "/blog",
+      "type": "internal",
+      "position": 2,
+      "newTab": false
+    },
+    {
+      "id": 3,
+      "label": "Contact",
+      "url": "/contact",
+      "type": "internal",
+      "position": 3,
+      "newTab": false
+    },
+    {
+      "id": 4,
+      "label": "GitHub",
+      "url": "https://github.com/omagaark/hvdocs",
+      "type": "external",
+      "position": 4,
+      "newTab": true
+    }
+  ]
+}
