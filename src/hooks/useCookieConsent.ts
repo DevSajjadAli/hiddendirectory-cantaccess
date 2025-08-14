@@ -14,6 +14,11 @@ export function useCookieConsent() {
   const [hasConsent, setHasConsent] = useState(false);
 
   useEffect(() => {
+    // Only run on client-side
+    if (typeof window === 'undefined') {
+      return;
+    }
+
     // Initial load
     const status = getCookiePreferences();
     const prefs = getCookiePreferences();
@@ -56,6 +61,12 @@ export function useConsentGate(category: string) {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
+    // Only run on client-side
+    if (typeof window === 'undefined') {
+      setIsLoading(false);
+      return;
+    }
+
     const checkConsent = () => {
       const allowed = isCategoryAllowed(category);
       setIsAllowed(allowed);

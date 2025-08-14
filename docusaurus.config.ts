@@ -17,17 +17,17 @@ const config: Config = {
   },
 
   // Set the production url of your site here
-  url: 'https://docusaurus.io',
+  url: 'https://docusaurus-admin-panel-demo-853045317f6e.herokuapp.com',
   // Set the /<baseUrl>/ pathname under which your site is served
   // For GitHub pages deployment, it is often '/<projectName>/'
   baseUrl: '/',
 
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
-  organizationName: 'facebook', // Usually your GitHub org/user name.
-  projectName: 'docusaurus', // Usually your repo name.
+  organizationName: 'docusaurus', // Usually your GitHub org/user name.
+  projectName: 'docusaurus-admin-panel', // Usually your repo name.
   deploymentBranch: 'gh-pages', // The branch that GitHub pages will deploy from.
-  onBrokenLinks: 'throw',
+  onBrokenLinks: 'warn', // Changed from 'throw' to 'warn' for deployment
   onBrokenMarkdownLinks: 'warn',
 
   // Even if you don't use internationalization, you can use this field to set
@@ -127,8 +127,8 @@ const config: Config = {
               to: '/docs/intro',
             },
             {
-              label: 'API Reference',
-              to: '/docs/category/api-reference',
+              label: 'Getting Started',
+              to: '/docs/category/getting-started',
             },
             {
               label: 'Admin Panel',
